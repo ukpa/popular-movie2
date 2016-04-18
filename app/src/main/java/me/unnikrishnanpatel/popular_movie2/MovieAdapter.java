@@ -1,0 +1,59 @@
+package me.unnikrishnanpatel.popular_movie2;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+/**
+ * Created by unnikrishnanpatel on 18/04/16.
+ */
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
+    private ArrayList<HashMap<String,String>> mDataset;
+    public MovieAdapter (ArrayList<HashMap<String,String>> myDataset) {
+        mDataset = myDataset;
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        public ImageView mImageView;
+        public ViewHolder(View v) {
+            super(v);
+            mImageView = (ImageView)v.findViewById(R.id.poster);
+        }
+    }
+    @Override
+    public MovieAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                   int viewType) {
+        // create a new view
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.movieposterlyout, parent, false);
+
+        ViewHolder vh = new ViewHolder(v);
+        return vh;
+    }
+
+    @Override
+    public void onBindViewHolder(MovieAdapter.ViewHolder holder, int position) {
+        Context context = holder.mImageView.getContext();
+
+        Picasso picasso = PabloPicasso.with(context);
+
+        picasso.load(mDataset.get(position).get("poster_path")).into(holder.mImageView);
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return mDataset.size();
+    }
+}
+
+

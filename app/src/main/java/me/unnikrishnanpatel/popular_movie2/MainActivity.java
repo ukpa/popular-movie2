@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity  {
     private RecyclerView mRecyclerView;
@@ -24,10 +25,11 @@ public class MainActivity extends AppCompatActivity  {
     private RecyclerView.LayoutManager mLayoutManager;
     private JSONArray results = null;
     private ArrayList<HashMap<String,String>> movieList;
-    private String posterUrl = "http://image.tmdb.org/t/p/w185/";
+    private String posterUrl = "http://image.tmdb.org/t/p/w342/";
     private FetchMovieData data;
     String mostPopular = "http://api.themoviedb.org/3/movie/popular?api_key=7baf82d2c99ba2997a60d4af8b763034";
     String topRated = "http://api.themoviedb.org/3/movie/top_rated?api_key=7baf82d2c99ba2997a60d4af8b763034";
+    SharedPreferences sharedPreferences;
 
 
     @Override
@@ -38,9 +40,7 @@ public class MainActivity extends AppCompatActivity  {
         mRecyclerView = (RecyclerView)findViewById(R.id.movieGrid);
         mLayoutManager = new GridLayoutManager(this,2);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-
-
+        sharedPreferences = this.getSharedPreferences("saved_movies",Context.MODE_PRIVATE);
 
          data = (FetchMovieData) new FetchMovieData(new AsyncResponse() {
             @Override
@@ -98,6 +98,23 @@ public class MainActivity extends AppCompatActivity  {
                 }).execute(mostPopular);
 
                 return true;
+            case R.id.fav:
+                Map<String,?> keys = sharedPreferences.getAll();
+                movieList.clear();
+
+                for(Map.Entry<String,?> entry : keys.entrySet()){
+
+                    HashMap<String, String> movie = new HashMap();
+                    movie.put("poster_path", String.valueOf(entry.getValue()));
+                    movie.put("id",String.valueOf(entry.getKey()));
+
+                    movieList.add(movie);
+                }
+                mAdapter = new MovieAdapter(movieList);
+                mRecyclerView.setAdapter(mAdapter);
+                MainActivity.this.setTitle("Your favourite Movies");
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }

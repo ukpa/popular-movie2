@@ -1,10 +1,15 @@
 package me.unnikrishnanpatel.popular_movie2;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,13 +26,15 @@ public class MainActivity extends AppCompatActivity  {
     private ArrayList<HashMap<String,String>> movieList;
     private String posterUrl = "http://image.tmdb.org/t/p/w185/";
     private FetchMovieData data;
+    String mostPopular = "http://api.themoviedb.org/3/movie/popular?api_key=7baf82d2c99ba2997a60d4af8b763034";
+    String topRated = "http://api.themoviedb.org/3/movie/top_rated?api_key=7baf82d2c99ba2997a60d4af8b763034";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.setTitle("Popular Movies");
+        this.setTitle("Top Rated Movies");
         mRecyclerView = (RecyclerView)findViewById(R.id.movieGrid);
         mLayoutManager = new GridLayoutManager(this,2);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -44,15 +51,57 @@ public class MainActivity extends AppCompatActivity  {
 
 
             }
-        }).execute("http://api.themoviedb.org/3/movie/popular?api_key=7baf82d2c99ba2997a60d4af8b763034");
-
-
-
+        }).execute(topRated);
 
 
 
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.sortmenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.top:
+                data = (FetchMovieData) new FetchMovieData(new AsyncResponse() {
+                    @Override
+                    public void processFinish(String movieDataJson) {
+                        hashOutput(movieDataJson);
+                        mAdapter = new MovieAdapter(movieList);
+                        mRecyclerView.setAdapter(mAdapter);
+                        MainActivity.this.setTitle("Top Rated Movies");
+
+
+
+                    }
+                }).execute(topRated);
+
+                return true;
+            case R.id.pop:
+                data = (FetchMovieData) new FetchMovieData(new AsyncResponse() {
+                    @Override
+                    public void processFinish(String movieDataJson) {
+                        hashOutput(movieDataJson);
+                        mAdapter = new MovieAdapter(movieList);
+                        mRecyclerView.setAdapter(mAdapter);
+                        MainActivity.this.setTitle("Most Popular Movies");
+
+
+                    }
+                }).execute(mostPopular);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     private void hashOutput(String movieDataJson) {
         if(movieDataJson!=null){
             try{

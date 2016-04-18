@@ -1,7 +1,9 @@
 package me.unnikrishnanpatel.popular_movie2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +17,10 @@ import java.util.HashMap;
 /**
  * Created by unnikrishnanpatel on 18/04/16.
  */
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>  {
     private ArrayList<HashMap<String,String>> mDataset;
+
+
     public MovieAdapter (ArrayList<HashMap<String,String>> myDataset) {
         mDataset = myDataset;
     }
@@ -41,12 +45,20 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(MovieAdapter.ViewHolder holder, int position) {
-        Context context = holder.mImageView.getContext();
+    public void onBindViewHolder(MovieAdapter.ViewHolder holder, final int position) {
+        final Context context = holder.mImageView.getContext();
 
         Picasso picasso = PabloPicasso.with(context);
 
         picasso.load(mDataset.get(position).get("poster_path")).into(holder.mImageView);
+        holder.mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context,DetailActivity.class);
+                i.putExtra("data",mDataset.get(position));
+                context.startActivity(i);
+            }
+        });
 
     }
 
@@ -54,6 +66,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public int getItemCount() {
         return mDataset.size();
     }
+
+
 }
 
 

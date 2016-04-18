@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ViewGroup;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,10 +22,12 @@ public class MainActivity extends AppCompatActivity  {
     private String posterUrl = "http://image.tmdb.org/t/p/w185/";
     private FetchMovieData data;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.setTitle("Popular Movies");
         mRecyclerView = (RecyclerView)findViewById(R.id.movieGrid);
         mLayoutManager = new GridLayoutManager(this,2);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity  {
                     HashMap<String, String> movie = new HashMap();
                     movie.put("poster_path",posterUrl+movieData.getString("poster_path"));
                     movie.put("id",movieData.getString("id"));
+                    movie.put("title",movieData.getString("title"));
                     movieList.add(movie);
 
                 }

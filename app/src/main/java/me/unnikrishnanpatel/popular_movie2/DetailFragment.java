@@ -94,7 +94,7 @@ public class DetailFragment extends Fragment  {
         final View v =  inflater.inflate(R.layout.fragment_detail, container, false);
         final HashMap<String,String> movieData= (HashMap<String, String>) getArguments().getSerializable("data");
         Log.d(this.getClass().getSimpleName(),String.valueOf(movieData));
-        String url = "https://api.themoviedb.org/3/movie/"+movieData.get("id")+"?api_key=7baf82d2c99ba2997a60d4af8b763034";
+        String url = "https://api.themoviedb.org/3/movie/"+movieData.get("id")+"?api_key=<>";
         sharedPreferences = getActivity().getSharedPreferences("saved_movies",Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         fav = (Button)v.findViewById(R.id.markAsFav);

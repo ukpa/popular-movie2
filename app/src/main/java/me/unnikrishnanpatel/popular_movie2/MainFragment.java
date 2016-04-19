@@ -38,8 +38,8 @@ public class MainFragment extends Fragment {
     private ArrayList<HashMap<String,String>> movieList;
     private String posterUrl = "http://image.tmdb.org/t/p/w342/";
     private FetchMovieData data;
-    String mostPopular = "http://api.themoviedb.org/3/movie/popular?api_key=7baf82d2c99ba2997a60d4af8b763034";
-    String topRated = "http://api.themoviedb.org/3/movie/top_rated?api_key=7baf82d2c99ba2997a60d4af8b763034";
+    String mostPopular = "http://api.themoviedb.org/3/movie/popular?api_key=<>";
+    String topRated = "http://api.themoviedb.org/3/movie/top_rated?api_key=<>";
     SharedPreferences sharedPreferences;
 
     // TODO: Rename and change types of parameters

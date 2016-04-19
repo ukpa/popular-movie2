@@ -195,6 +195,11 @@ public class DetailActivity extends AppCompatActivity {
                             l.setOrientation(LinearLayout.VERTICAL);
                             l.setBackgroundColor(Color.GRAY);
                             l.setPadding(10,10,10,10);
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                            layoutParams.setMargins(0, 0, 0, 10);
+                            l.setLayoutParams(layoutParams);
                             TextView author = new TextView(DetailActivity.this);
                             TextView content  = new TextView(DetailActivity.this);
                             author.setText("Author: "+reviewData.getString("author"));

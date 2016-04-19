@@ -154,7 +154,10 @@ public class MainFragment extends Fragment {
                 return true;
             case R.id.fav:
                 Map<String,?> keys = sharedPreferences.getAll();
-                movieList.clear();
+                if (movieList!=null){movieList.clear();}else{
+                    movieList = new ArrayList<>();
+                }
+
 
                 for(Map.Entry<String,?> entry : keys.entrySet()){
 

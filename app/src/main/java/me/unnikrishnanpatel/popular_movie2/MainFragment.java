@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -117,7 +118,13 @@ public class MainFragment extends Fragment {
                     @Override
                     public void processFinish(String movieDataJson) {
                         hashOutput(movieDataJson);
-                        mAdapter = new MovieAdapter(movieList);
+                        mAdapter = new MovieAdapter(movieList, new MovieCallback() {
+                            @Override
+                            public void sendMovie(HashMap<String, String> output) {
+                                Log.d("FUCKING ASS", String.valueOf(output));
+                                populateFragments(output);
+                            }
+                        });
                         mRecyclerView.setAdapter(mAdapter);
                         getActivity().setTitle("Top Rated Movies");
                     }
@@ -129,7 +136,13 @@ public class MainFragment extends Fragment {
                     @Override
                     public void processFinish(String movieDataJson) {
                         hashOutput(movieDataJson);
-                        mAdapter = new MovieAdapter(movieList);
+                        mAdapter = new MovieAdapter(movieList, new MovieCallback() {
+                            @Override
+                            public void sendMovie(HashMap<String, String> output) {
+                                Log.d("FUCKING ASS", String.valueOf(output));
+                                populateFragments(output);
+                            }
+                        });
                         mRecyclerView.setAdapter(mAdapter);
                         getActivity().setTitle("Most Popular Movies");
 
@@ -150,7 +163,13 @@ public class MainFragment extends Fragment {
 
                     movieList.add(movie);
                 }
-                mAdapter = new MovieAdapter(movieList);
+                mAdapter = new MovieAdapter(movieList, new MovieCallback() {
+                    @Override
+                    public void sendMovie(HashMap<String, String> output) {
+                        Log.d("FUCKING ASS", String.valueOf(output));
+                        populateFragments(output);
+                    }
+                });
                 mRecyclerView.setAdapter(mAdapter);
                 getActivity().setTitle("Your favourite Movies");
 
@@ -177,13 +196,36 @@ public class MainFragment extends Fragment {
             @Override
             public void processFinish(String movieDataJson) {
                 hashOutput(movieDataJson);
-                mAdapter = new MovieAdapter(movieList);
+                mAdapter = new MovieAdapter(movieList, new MovieCallback() {
+                    @Override
+                    public void sendMovie(HashMap<String, String> output) {
+                        populateFragments(output);
+
+
+                    }
+                });
                 mRecyclerView.setAdapter(mAdapter);
+
 
 
             }
         }).execute(topRated);
         return v;
+    }
+
+    private void populateFragments(HashMap<String, String> output) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("data",output);
+        DetailFragment detailFragment = new DetailFragment();
+        detailFragment.setArguments(bundle);
+        FragmentManager fm = getFragmentManager();
+        if(MainActivity.mTwoPane ==false){
+            fm.beginTransaction().add(R.id.detail_fragment,detailFragment).
+                    addToBackStack(null).commit();
+        }else{
+            fm.beginTransaction().replace(R.id.fragment_container,detailFragment).
+                    addToBackStack(null).commit();
+        }
     }
 
 

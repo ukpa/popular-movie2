@@ -1,27 +1,13 @@
 package me.unnikrishnanpatel.popular_movie2;
-
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    public  static Boolean mTwoPane;
 
 
 
@@ -29,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mTwoPane = findViewById(R.id.fragment_container)!= null;
+        Log.d("MainActivity",String.valueOf(mTwoPane));
 
         if (findViewById(R.id.fragment_container) != null) {
 
@@ -50,10 +38,25 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, firstFragment).commit();
         }
+        else{
+            Log.d("Fuck Everyone","TRUE");
+            MainFragment firstFragment = new MainFragment();
+            DetailFragment detailFragment = new DetailFragment();
+
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            firstFragment.setArguments(getIntent().getExtras());
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.name_fragment, firstFragment).commit();
+        }
+
 
 
 
     }
+
 
 
 

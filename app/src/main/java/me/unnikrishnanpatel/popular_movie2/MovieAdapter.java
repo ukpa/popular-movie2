@@ -19,10 +19,12 @@ import java.util.HashMap;
  */
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>  {
     private ArrayList<HashMap<String,String>> mDataset;
+    public MovieCallback delegate =null;
 
 
-    public MovieAdapter (ArrayList<HashMap<String,String>> myDataset) {
+    public MovieAdapter (ArrayList<HashMap<String,String>> myDataset, MovieCallback m) {
         mDataset = myDataset;
+        delegate = m;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -54,9 +56,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context,DetailActivity.class);
-                i.putExtra("data",mDataset.get(position));
-                context.startActivity(i);
+
+                delegate.sendMovie(mDataset.get(position));
             }
         });
 

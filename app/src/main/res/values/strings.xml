@@ -4,4 +4,7 @@
     <string name="pop">Most Popular</string>
     <string name="detailView">Movie Detail</string>
     <string name="fav">Favourite Movies</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

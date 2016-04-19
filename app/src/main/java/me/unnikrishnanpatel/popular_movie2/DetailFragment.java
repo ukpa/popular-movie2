@@ -7,8 +7,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -233,10 +231,6 @@ public class DetailFragment extends Fragment  {
                         LinearLayout layout = (LinearLayout)v.findViewById(R.id.reviews);
                         for(int i=0;i<results.length();i++){
                             JSONObject reviewData = results.getJSONObject(i);
-                            /*HashMap<String, String> review = new HashMap();
-                            review.put("author",reviewData.getString("author"));
-                            review.put("content", reviewData.getString("content"));
-                            reviews.add(review);*/
                             LinearLayout l = new LinearLayout(getActivity());
                             l.setOrientation(LinearLayout.VERTICAL);
                             l.setBackgroundColor(Color.GRAY);

@@ -122,7 +122,7 @@ public class MainFragment extends Fragment {
                         mAdapter = new MovieAdapter(movieList, new MovieCallback() {
                             @Override
                             public void sendMovie(HashMap<String, String> output) {
-                                Log.d("FUCKING ASS", String.valueOf(output));
+
                                 populateFragments(output);
                             }
                         });
@@ -140,7 +140,7 @@ public class MainFragment extends Fragment {
                         mAdapter = new MovieAdapter(movieList, new MovieCallback() {
                             @Override
                             public void sendMovie(HashMap<String, String> output) {
-                                Log.d("FUCKING ASS", String.valueOf(output));
+
                                 populateFragments(output);
                             }
                         });
@@ -167,7 +167,7 @@ public class MainFragment extends Fragment {
                 mAdapter = new MovieAdapter(movieList, new MovieCallback() {
                     @Override
                     public void sendMovie(HashMap<String, String> output) {
-                        Log.d("FUCKING ASS", String.valueOf(output));
+
                         populateFragments(output);
                     }
                 });

@@ -3,6 +3,7 @@ package me.unnikrishnanpatel.popular_movie2;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -171,6 +172,44 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         }).execute("http://api.themoviedb.org/3/movie/"+movieData.get("id")+"/videos?api_key=7baf82d2c99ba2997a60d4af8b763034");
+
+
+        reviewFetch = (FetchMovieData) new FetchMovieData(new AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+
+                if (output!=null){
+                    try{
+
+                        JSONObject jsonObject = new JSONObject(output);
+                        JSONArray results = jsonObject.getJSONArray("results");
+                        ArrayList<HashMap<String,String>> reviews= new ArrayList<>();
+                        LinearLayout layout = (LinearLayout)findViewById(R.id.reviews);
+                        for(int i=0;i<results.length();i++){
+                            JSONObject reviewData = results.getJSONObject(i);
+                            /*HashMap<String, String> review = new HashMap();
+                            review.put("author",reviewData.getString("author"));
+                            review.put("content", reviewData.getString("content"));
+                            reviews.add(review);*/
+                            LinearLayout l = new LinearLayout(DetailActivity.this);
+                            l.setOrientation(LinearLayout.VERTICAL);
+                            l.setBackgroundColor(Color.GRAY);
+                            l.setPadding(10,10,10,10);
+                            TextView author = new TextView(DetailActivity.this);
+                            TextView content  = new TextView(DetailActivity.this);
+                            author.setText("Author: "+reviewData.getString("author"));
+                            content.setText(reviewData.getString("content"));
+                            l.addView(author);
+                            l.addView(content);
+                            layout.addView(l);
+
+                        }
+
+
+                    }catch (JSONException e){}
+                }
+            }
+        }).execute("http://api.themoviedb.org/3/movie/"+movieData.get("id")+"/reviews?api_key=7baf82d2c99ba2997a60d4af8b763034");
 
 
 

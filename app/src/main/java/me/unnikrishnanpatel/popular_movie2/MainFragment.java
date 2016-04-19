@@ -1,6 +1,7 @@
 package me.unnikrishnanpatel.popular_movie2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -223,8 +224,9 @@ public class MainFragment extends Fragment {
             fm.beginTransaction().add(R.id.detail_fragment,detailFragment).
                     addToBackStack(null).commit();
         }else{
-            fm.beginTransaction().replace(R.id.fragment_container,detailFragment).
-                    addToBackStack(null).commit();
+            Intent i = new Intent(getActivity(),DetailActivity.class);
+            i.putExtra("data",output);
+            startActivity(i);
         }
     }
 
